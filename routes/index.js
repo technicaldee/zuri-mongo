@@ -1,9 +1,7 @@
 const router = require("express").Router()
+const { home } = require("../controllers/todocontroller");
 const Todo = require('../models/Todo')
 
-router.get("/", async(req, res) => {
-    const allTodo = await Todo.find()
-    res.render("index", {todo: allTodo})
-})
+router.get("/", home)
 
 module.exports = router;

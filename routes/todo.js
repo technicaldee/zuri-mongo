@@ -1,37 +1,10 @@
 const router = require('express').Router()
-const Todo = require('../models/Todo')
+const { addTodo, deleteTodo, updateTodo } = require('../controllers/todocontroller');
 
-router.post("/add/todo", (req, res) => {
-    const { title, description } = req.body;
-    const newTodo = new Todo({title, description})
+router.post("/add/todo", addTodo)
 
-    // Save
-    newTodo.save()
-    .then(() => {
-        console.log("Saved")
-        res.redirect("/")
-    })
-    .catch((err) => console.log(err))
-})
+.get("/delete/todo/:_id", deleteTodo)
 
-.get("/delete/todo/:_id", (req, res) => {
-    const {_id} = req.params;
-    Todo.deleteOne({_id})
-    .then(() => {
-        console.log("deleted")
-        res.redirect('/')
-    })
-    .catch((err)=> console.log(err))
-})
-
-.post("/update/todo", (req, res) => {
-    const {id, title, description} = req.body;
-    Todo.findByIdAndUpdate(id, {title: title, description: description})
-    .then(() =>  {
-            console.log("Updated")
-            res.redirect('/')
-    })
-    .catch((err)=> console.log(err))   
-});
+.post("/update/todo", updateTodo);
 
 module.exports = router;
