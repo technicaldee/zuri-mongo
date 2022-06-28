@@ -3,7 +3,7 @@ const Todo = require('../models/Todo')
 
 async function  home (req, res) {
     const allTodo = await Todo.find()
-    res.render("index", {todo: allTodo})
+    res.jsonp(JSON.parse(JSON.stringify(allTodo)))
 }
 
 function addTodo (req, res) {
@@ -14,7 +14,7 @@ function addTodo (req, res) {
     newTodo.save()
     .then(() => {
         console.log("Saved")
-        res.redirect("/")
+        res.json({message: "Successfully Added"})
     })
     .catch((err) => console.log(err))
 }
@@ -24,7 +24,7 @@ function deleteTodo (req, res) {
     Todo.deleteOne({_id})
     .then(() => {
         console.log("deleted")
-        res.redirect('/')
+        res.json({message: 'Successfully Deleted'})
     })
     .catch((err)=> console.log(err))
 }
@@ -34,7 +34,7 @@ function updateTodo(req, res) {
     Todo.findByIdAndUpdate(id, {title: title, description: description})
     .then(() =>  {
             console.log("Updated")
-            res.redirect('/')
+            res.json({message: 'Successfully Updated'})
     })
     .catch((err)=> console.log(err))   
 }

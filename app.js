@@ -9,10 +9,19 @@ mongoose.connect("mongodb://localhost/zuri_mongo", {
     useUnifiedTopology: true,
 })
 
+var unless = function(path, middleware) {
+    return function(req, res, next) {
+        if (path === req.path) {
+            return next();
+        } else {
+            return middleware(req, res, next);
+        }
+    };
+};
+
 //middleware
 app.use(express.urlencoded({extended: false}))
-app.use(express.static("public"))
-app.set("view engine", "ejs")
+app.use(unless('/', express.json()))
 
 
 // routes
