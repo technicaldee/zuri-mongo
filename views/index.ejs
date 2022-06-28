@@ -1,0 +1,30 @@
+
+
+<h1>Hello World</h1>
+
+<form method="post" action="/add/todo">
+    <input name="title" placeholder="Enter Title" /><br />
+    <textarea name="description" placeholder="Description"></textarea><br />
+    <button type="submit">Submit</button>
+</form>
+
+<h2>Current ToDo's:</h2>
+<ul>
+    <% todo.forEach(todos => { %>
+        <li><%= todos.title %> (<%= todos.timestamp %>) ----- <a href="/delete/todo/<%= todos._id %>"> Delete </a> <br /> <%= todos.description %> </li>
+    <%  }) %> 
+</ul>
+
+<br />
+
+<h2>Update</h2>
+<form method="post" action="/update/todo">
+    <select name="id">
+        <% todo.forEach(todos => { %>
+            <option value="<%= todos._id %>"><%= todos.title %></option>
+        <%  }) %> 
+    </select><br />
+    <input name="title" placeholder="New Title" /><br />
+    <textarea name="description" placeholder="New Description"></textarea><br />
+    <button type="submit">Submit</button>
+</form>
